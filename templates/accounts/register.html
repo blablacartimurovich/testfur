@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация - Furniture Wood{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Регистрация</h1>
+        <p class="auth-subtitle">Создайте аккаунт для покупок</p>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="error">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn-primary btn-full">Зарегистрироваться</button>
+        </form>
+        
+        <p class="auth-footer">
+            Уже есть аккаунт? <a href="{% url 'accounts:login' %}">Войти</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

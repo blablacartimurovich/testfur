@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог - Furniture Wood{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Каталог мебели</h1>
+    
+    <!-- Фильтры -->
+    <div class="catalog-layout">
+        <aside class="filters-sidebar">
+            <form method="get" class="filters-form">
+                <h3>Фильтры</h3>
+                
+                <!-- Поиск -->
+                <div class="filter-group">
+                    <label>Поиск</label>
+                    <input type="text" name="search" value="{{ current_search|default:'' }}" 
+                           placeholder="Название, материал..." class="form-input">
+                </div>
+                
+                <!-- Категория -->
+                <div class="filter-group">
+                    <label>Категория</label>
+                    <select name="category" class="form-select">
+                        <option value="">Все категории</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.slug }}" {% if current_category == cat.slug %}selected{% endif %}>
+                                {{ cat.icon }} {{ cat.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Комната -->
+                <div class="filter-group">
+                    <label>Комната</label>
+                    <select name="room" class="form-select">
+                        <option value="">Все комнаты</option>
+                        {% for room in room_types %}
+                            <option value="{{ room.slug }}" {% if current_room == room.slug %}selected{% endif %}>
+                                {{ room.icon }} {{ room.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Стиль -->
+                <div class="filter-group">
+                    <label>Стиль</label>
+                    <select name="style" class="form-select">
+                        <option value="">Все стили</option>
+                        {% for style in styles %}
+                            <option value="{{ style.slug }}" {% if current_style == style.slug %}selected{% endif %}>
+                                {{ style.icon }} {{ style.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Бюджет -->
+                <div class="filter-group">
+                    <label>Бюджет</label>
+                    <select name="budget" class="form-select">
+                        <option value="">Любой бюджет</option>
+                        <option value="economy" {% if current_budget == 'economy' %}selected{% endif %}>💰 Эконом</option>
+                        <option value="standard" {% if current_budget == 'standard' %}selected{% endif %}>💵 Стандарт</option>
+                        <option value="premium" {% if current_budget == 'premium' %}selected{% endif %}>💎 Премиум</option>
+                        <option value="luxury" {% if current_budget == 'luxury' %}selected{% endif %}>👑 Люкс</option>
+                    </select>
+                </div>
+                
+                <!-- Сортировка -->
+                <div class="filter-group">
+                    <label>Сортировка</label>
+                    <select name="sort" class="form-select">
+                        <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Сначала новые</option>
+                        <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Сначала дешёвые</option>
+                        <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Сначала дорогие</option>
+                        <option value="name" {% if current_sort == 'name' %}selected{% endif %}>По названию</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-full">Применить</button>
+                <a href="{% url 'catalog:catalog' %}" class="btn-secondary btn-full">Сбросить</a>
+            </form>
+        </aside>
+        
+        <!-- Товары -->
+        <div class="catalog-content">
+            {% if products %}
+                <div class="products-grid">
+                    {% for product in products %}
+                        <div class="product-card">
+                            <a href="{% url 'catalog:product_detail' product.slug %}">
+                                <div class="product-image">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <div class="no-image">🪑</div>
+                                    {% endif %}
+                                    
+                                    {% if product.is_new %}
+                                        <span class="badge badge-new">Новинка</span>
+                                    {% endif %}
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ product.name }}</h3>
+                                    <p class="product-material">{{ product.material }}</p>
+                                    <p class="product-price">{{ product.price|floatformat:0 }} ₽</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Пагинация -->
+                {% if products.has_other_pages %}
+                    <div class="pagination">
+                        {% if products.has_previous %}
+                            <a href="?page={{ products.previous_page_number }}&search={{ current_search|default:'' }}&category={{ current_category|default:'' }}&room={{ current_room|default:'' }}&style={{ current_style|default:'' }}&budget={{ current_budget|default:'' }}&sort={{ current_sort }}" class="page-link">← Назад</a>
+                        {% endif %}
+                        
+                        <span class="page-info">
+                            Страница {{ products.number }} из {{ products.paginator.num_pages }}
+                        </span>
+                        
+                        {% if products.has_next %}
+                            <a href="?page={{ products.next_page_number }}&search={{ current_search|default:'' }}&category={{ current_category|default:'' }}&room={{ current_room|default:'' }}&style={{ current_style|default:'' }}&budget={{ current_budget|default:'' }}&sort={{ current_sort }}" class="page-link">Вперёд →</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="empty-state">
+                    <span class="empty-icon">🔍</span>
+                    <h2>Товары не найдены</h2>
+                    <p>Попробуйте изменить параметры фильтрации</p>
+                    <a href="{% url 'catalog:catalog' %}" class="btn-primary">Сбросить фильтры</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

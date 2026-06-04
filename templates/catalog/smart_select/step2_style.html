@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Умный подбор - Шаг 2{% endblock %}
+
+{% block content %}
+<div class="smart-select">
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Комната</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step active">
+                <span class="step-number">2</span>
+                <span class="step-name">Стиль</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span class="step-number">3</span>
+                <span class="step-name">Бюджет</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-content">
+        <div class="selected-info">
+            <span class="selected-badge">{{ room.icon }} {{ room.name }}</span>
+        </div>
+
+        <h1>Какой стиль вам нравится?</h1>
+        <p class="step-subtitle">Выберите стилистику интерьера</p>
+
+        <div class="options-grid">
+            {% for style in styles %}
+            <a href="{% url 'catalog:smart_select_budget' room.slug style.slug %}" class="option-card">
+                {% if style.image %}
+                <img src="{{ style.image.url }}" alt="{{ style.name }}" class="option-image">
+                {% endif %}
+                <div class="option-name">{{ style.name }}</div>
+                {% if style.description %}
+                <div class="option-desc">{{ style.description|truncatewords:10 }}</div>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'catalog:smart_select_start' %}" class="back-link">← Назад к выбору комнаты</a>
+    </div>
+</div>
+{% endblock %}

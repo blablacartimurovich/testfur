@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход - Furniture Wood{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Вход</h1>
+        <p class="auth-subtitle">Войдите в свой аккаунт</p>
+        
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="error">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            {% if form.non_field_errors %}
+                <div class="error">{{ form.non_field_errors.0 }}</div>
+            {% endif %}
+            
+            <button type="submit" class="btn-primary btn-full">Войти</button>
+        </form>
+        
+        <p class="auth-footer">
+            Нет аккаунта? <a href="{% url 'accounts:register' %}">Зарегистрироваться</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

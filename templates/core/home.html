@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Furniture Wood - Мебель из натурального дерева{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>🪵 Мебель из натурального дерева</h1>
+    <p>Создаём уют в вашем доме</p>
+    
+    <div class="hero-buttons">
+        <a href="{% url 'catalog:smart_select_start' %}" class="btn-hero primary">
+            🎯 Умный подбор мебели
+        </a>
+        <a href="{% url 'catalog:catalog' %}" class="btn-hero secondary">
+            📦 Весь каталог
+        </a>
+    </div>
+</div>
+{% endblock %}

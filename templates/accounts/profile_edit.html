@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование профиля - Furniture Wood{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-edit-card">
+        <h1>Редактирование профиля</h1>
+        
+        <form method="post" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="error">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Сохранить</button>
+                <a href="{% url 'accounts:profile' %}" class="btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

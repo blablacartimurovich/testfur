@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Умный подбор - Шаг 3{% endblock %}
+
+{% block content %}
+<div class="smart-select">
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Комната</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Стиль</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step active">
+                <span class="step-number">3</span>
+                <span class="step-name">Бюджет</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-content">
+        <div class="selected-info">
+            <span class="selected-badge">{{ room.icon }} {{ room.name }}</span>
+            <span class="selected-badge">🎨 {{ style.name }}</span>
+        </div>
+
+        <h1>Какой у вас бюджет?</h1>
+        <p class="step-subtitle">Выберите ценовую категорию</p>
+
+        <div class="options-grid budget-grid">
+            {% for b in budgets %}
+            <a href="{% url 'catalog:smart_select_results' room.slug style.slug b.key %}" class="option-card budget-card">
+                <div class="option-icon">{{ b.icon }}</div>
+                <div class="option-name">{{ b.name }}</div>
+                <div class="budget-range">{{ b.range }}</div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'catalog:smart_select_style' room.slug %}" class="back-link">← Назад к выбору стиля</a>
+    </div>
+</div>
+{% endblock %}

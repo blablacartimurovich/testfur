@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Умный подбор - Шаг 1{% endblock %}
+
+{% block content %}
+<div class="smart-select">
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="progress-step active">
+                <span class="step-number">1</span>
+                <span class="step-name">Комната</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span class="step-number">2</span>
+                <span class="step-name">Стиль</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span class="step-number">3</span>
+                <span class="step-name">Бюджет</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-content">
+        <h1>Для какой комнаты подбираем мебель?</h1>
+        <p class="step-subtitle">Выберите помещение, которое хотите обставить</p>
+
+        <div class="options-grid">
+            {% for room in rooms %}
+            <a href="{% url 'catalog:smart_select_style' room.slug %}" class="option-card">
+                <div class="option-icon">{{ room.icon }}</div>
+                <div class="option-name">{{ room.name }}</div>
+            </a>
+            {% empty %}
+            <p>Комнаты не добавлены. Добавьте их в админке.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

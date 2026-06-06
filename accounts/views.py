@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from cart.models import Cart
 from .forms import RegisterForm, LoginForm, ProfileForm
 
 
@@ -53,8 +54,14 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    """Профиль пользователя"""
-    return render(request, 'accounts/profile.html')
+    # Получаем или создаём корзину пользователя
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.select_related('product').all()
+
+    return render(request, 'accounts/profile.html', {
+        'cart': cart,
+        'cart_items': items,
+    })
 
 
 @login_required

@@ -8,66 +8,71 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="{% url 'core:home' %}" class="logo">
-                    <span class="logo-icon">🪵</span>
-                    <span>Furniture Wood</span>
-                </a>
-                
-                <nav class="nav">
-                    <a href="{% url 'catalog:smart_select_start' %}" class="nav-link">🎯 Умный подбор</a>
-                    <a href="{% url 'catalog:catalog' %}" class="nav-link">📦 Каталог</a>
-                    <a href="{% url 'core:about' %}" class="nav-link">ℹ️ О нас</a>
-                </nav>
-                
-                <div class="user-menu">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'accounts:profile' %}" class="user-link">
-                            👤 {{ user.username }}
-                        </a>
-                        <a href="{% url 'accounts:logout' %}" class="user-link">Выйти</a>
-                    {% else %}
-                        <a href="{% url 'accounts:login' %}" class="user-link">Войти</a>
-                        <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-small">Регистрация</a>
-                    {% endif %}
+    <div class="site-wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="{% url 'core:home' %}" class="logo">
+                        <span class="logo-icon">🪵</span>
+                        <span>Furniture Wood</span>
+                    </a>
+                    
+                    <nav class="nav">
+                        <a href="{% url 'catalog:smart_select_start' %}" class="nav-link">🎯 Умный подбор</a>
+                        <a href="{% url 'catalog:catalog' %}" class="nav-link">📦 Каталог</a>
+                        <a href="{% url 'core:about' %}" class="nav-link">ℹ️ О нас</a>
+                    </nav>
+                    
+                    <div class="user-menu">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'accounts:profile' %}" class="user-link">
+                                👤 {{ user.username }}
+                            </a>
+                            <a href="{% url 'accounts:logout' %}" class="user-link">Выйти</a>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="user-link">Войти</a>
+                            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-small">Регистрация</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
-    
-    <!-- Main Content -->
-    <main>
-        {% if messages %}
-        <div class="container" style="padding-top: 20px;">
-            {% for message in messages %}
-            <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        
-        {% block content %}{% endblock %}
-    </main>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">🪵 Furniture Wood</div>
-                <div class="footer-links">
-                    <a href="{% url 'catalog:catalog' %}">Каталог</a>
-                    <a href="{% url 'core:about' %}">О нас</a>
-                    <a href="{% url 'catalog:smart_select_start' %}">Умный подбор</a>
+        </header>
+
+        <main class="site-content">
+            {% if messages %}
+            <div class="container" style="padding-top: 20px;">
+                {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}">
+                    {{ message }}
                 </div>
-                <div class="footer-copy">© 2024 Furniture Wood. Все права защищены.</div>
+                {% endfor %}
             </div>
-        </div>
-    </footer>
-    
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <div class="footer-logo">🪵</div>
+                        <div class="footer-brand-text">
+                            <div class="footer-title">Furniture Wood</div>
+                            <div class="footer-subtitle">Мебель с характером и теплом натурального дерева</div>
+                        </div>
+                    </div>
+
+                    <div class="footer-nav">
+                        <a href="{% url 'catalog:catalog' %}">Каталог</a>
+                        <a href="{% url 'core:about' %}">О нас</a>
+                        <a href="{% url 'catalog:smart_select_start' %}">Умный подбор</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

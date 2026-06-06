@@ -81,8 +81,8 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="btn-primary btn-full">Применить</button>
-                <a href="{% url 'catalog:catalog' %}" class="btn-secondary btn-full">Сбросить</a>
+                <button type="submit" class="btn btn-primary btn-small">Применить</button>
+                <a href="{% url 'catalog:catalog' %}" class="btn-secondary btn-small">Сбросить</a>
             </form>
         </aside>
         
@@ -91,26 +91,33 @@
             {% if products %}
                 <div class="products-grid">
                     {% for product in products %}
-                        <div class="product-card">
-                            <a href="{% url 'catalog:product_detail' product.slug %}">
-                                <div class="product-image">
-                                    {% if product.image %}
-                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                    {% else %}
-                                        <div class="no-image">🪑</div>
-                                    {% endif %}
-                                    
-                                    {% if product.is_new %}
-                                        <span class="badge badge-new">Новинка</span>
-                                    {% endif %}
+                    <div class="product-card product-card-elegant">
+                        <a href="{% url 'catalog:product_detail' product.slug %}" class="product-card-link">
+                           <div class="product-card-image-wrap">
+                               {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-image">
+                              {% else %}
+                                <div class="no-image">🪑</div>
+                              {% endif %}
+
+                              {% if product.is_new %}
+                               <span class="product-badge">Новинка</span>
+                              {% endif %}
+                           </div>
+
+                            <div class="product-card-content">
+                               <div class="product-card-top">
+                                  <h3 class="product-card-title">{{ product.name }}</h3>
+                                  <p class="product-card-material">{{ product.material }}</p>
+                               </div>
+
+                               <div class="product-card-bottom">
+                                  <div class="product-card-price">{{ product.price|floatformat:0 }} ₽</div>
+                                    <span class="product-card-action">Подробнее</span>
+                                 </div>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">{{ product.name }}</h3>
-                                    <p class="product-material">{{ product.material }}</p>
-                                    <p class="product-price">{{ product.price|floatformat:0 }} ₽</p>
-                                </div>
-                            </a>
-                        </div>
+                        </a>
+                   </div>
                     {% endfor %}
                 </div>
                 

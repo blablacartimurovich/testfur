@@ -8,9 +8,10 @@
         <h1>🎉 Мы подобрали для вас!</h1>
         
         <div class="selected-filters">
-            <span class="filter-tag">{{ room.icon }} {{ room.name }}</span>
-            <span class="filter-tag">🎨 {{ style.name }}</span>
-            <span class="filter-tag">💰 {{ budget_name }}</span>
+             <span class="filter-tag">{{ room.icon }} {{ room.name }}</span>
+             <span class="filter-tag">🎨 {{ style.name }}</span>
+             <span class="filter-tag">💰 {{ budget_name }}</span>
+             <span class="filter-tag">{{ category.icon }} {{ category.name }}</span>
         </div>
         
         <p class="results-count">Найдено товаров: <strong>{{ total_found }}</strong></p>
@@ -18,43 +19,44 @@
 
     {% if products %}
     <div class="products-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <div class="product-image">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                {% else %}
-                <div class="no-image">🪑</div>
-                {% endif %}
-                
-                {% if product.discount_percent %}
-                <span class="discount-badge">-{{ product.discount_percent }}%</span>
-                {% endif %}
-            </div>
-            
-            <div class="product-info">
-                <h3 class="product-name">{{ product.name }}</h3>
-                <p class="product-category">{{ product.category.name }}</p>
-                
-                <div class="product-price">
-                    {% if product.old_price %}
-                    <span class="old-price">{{ product.old_price|floatformat:0 }} ₽</span>
-                    {% endif %}
-                    <span class="current-price">{{ product.price|floatformat:0 }} ₽</span>
-                </div>
-                
-                <a href="{% url 'catalog:product_detail' product.slug %}" class="btn-view">Подробнее</a>
-            </div>
+    {% for product in products %}
+        <div class="product-card product-card-elegant">
+                        <a href="{% url 'catalog:product_detail' product.slug %}" class="product-card-link">
+                           <div class="product-card-image-wrap">
+                               {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-image">
+                              {% else %}
+                                <div class="no-image">🪑</div>
+                              {% endif %}
+
+                              {% if product.is_new %}
+                               <span class="product-badge">Новинка</span>
+                              {% endif %}
+                           </div>
+
+                            <div class="product-card-content">
+                               <div class="product-card-top">
+                                  <h3 class="product-card-title">{{ product.name }}</h3>
+                                  <p class="product-card-material">{{ product.material }}</p>
+                               </div>
+
+                               <div class="product-card-bottom">
+                                  <div class="product-card-price">{{ product.price|floatformat:0 }} ₽</div>
+                                    <span class="product-card-action">Подробнее</span>
+                                 </div>
+                                </div>
+                        </a>
+                   </div>
+    {% empty %}
+        <div class="no-products">
+            <h3>Ничего не найдено</h3>
+            <p>Попробуйте выбрать другой стиль или бюджет.</p>
+            <a href="{% url 'catalog:smart_select_start' %}" class="btn btn-primary">
+                Пройти заново
+            </a>
         </div>
-        {% endfor %}
-    </div>
-    {% else %}
-    <div class="no-results">
-        <div class="no-results-icon">😔</div>
-        <h2>К сожалению, ничего не найдено</h2>
-        <p>Попробуйте изменить параметры подбора</p>
-        <a href="{% url 'catalog:smart_select_start' %}" class="btn-restart">Начать заново</a>
-    </div>
+    {% endfor %}
+</div>
     {% endif %}
 
     {% if similar_products %}
@@ -79,8 +81,8 @@
     {% endif %}
 
     <div class="results-actions">
-        <a href="{% url 'catalog:smart_select_start' %}" class="btn-secondary">🔄 Подобрать заново</a>
-        <a href="{% url 'catalog:catalog' %}" class="btn-primary">📦 Весь каталог</a>
+        <a href="{% url 'catalog:smart_select_start' %}" class="btn btn-secondory btn-small">🔄 Подобрать заново</a>
+        <a href="{% url 'catalog:catalog' %}" class="btn btn-primary btn-small">📦 Весь каталог</a>
     </div>
 </div>
 {% endblock %}

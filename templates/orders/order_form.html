@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформление заказа - Furniture Wood{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="order-page">
+        <div class="order-form-container">
+            <h1>Оформление заказа</h1>
+            <p class="order-subtitle">
+                Заполните анкету, и мы свяжемся с вами для подтверждения заказа
+            </p>
+
+            <div class="order-products-box">
+                <h3>Ваш заказ:</h3>
+
+                {% for item in cart_items %}
+                    <div class="order-product-row">
+                        <span>{{ item.product.name }}</span>
+                        <span>{{ item.quantity }} × {{ item.product.price }} ₽</span>
+                    </div>
+                {% endfor %}
+
+                <div class="order-total">
+                    Итого:
+                    <strong>{{ cart.total_price }} ₽</strong>
+                </div>
+            </div>
+
+            <form method="post" class="order-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.full_name.id_for_label }}">ФИО</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}">Телефон</label>
+                    {{ form.phone }}
+                    {{ form.phone.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.address.id_for_label }}">Адрес доставки</label>
+                    {{ form.address }}
+                    {{ form.address.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.comment.id_for_label }}">Комментарий</label>
+                    {{ form.comment }}
+                    {{ form.comment.errors }}
+                </div>
+
+                <div class="order-actions">
+                    <a href="{% url 'accounts:profile' %}" class="btn-secondary btn-small">← Назад</a>
+                    <button type="submit" class="btn btn-primary btn-small">Подтвердить заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

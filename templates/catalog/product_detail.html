@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container">
-    <!-- Хлебные крошки -->
     <nav class="breadcrumbs">
         <a href="{% url 'core:home' %}">Главная</a>
         <span>/</span>
@@ -12,118 +11,126 @@
         <span>/</span>
         <span>{{ product.name }}</span>
     </nav>
-    
-    <div class="product-detail">
-        <!-- Изображение -->
-        <div class="product-gallery">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
-            {% else %}
-                <div class="no-image-large">🪑</div>
-            {% endif %}
-            
-            {% if product.is_new %}
-                <span class="badge badge-new badge-large">Новинка</span>
-            {% endif %}
-        </div>
-        
-        <!-- Информация -->
-        <div class="product-info-detail">
-            <h1>{{ product.name }}</h1>
-            
-            <p class="product-price-large">{{ product.price|floatformat:0 }} ₽</p>
-            
-            <!-- Характеристики -->
-            <div class="product-specs">
-                <div class="spec-item">
-                    <span class="spec-label">Материал:</span>
-                    <span class="spec-value">{{ product.material }}</span>
-                </div>
-                
-                {% if product.dimensions %}
-                <div class="spec-item">
-                    <span class="spec-label">Размеры:</span>
-                    <span class="spec-value">{{ product.dimensions }}</span>
-                </div>
-                {% endif %}
-                
-                {% if product.color %}
-                <div class="spec-item">
-                    <span class="spec-label">Цвет:</span>
-                    <span class="spec-value">{{ product.color }}</span>
-                </div>
-                {% endif %}
-                
-                <div class="spec-item">
-                    <span class="spec-label">Наличие:</span>
-                    <span class="spec-value {% if product.in_stock %}in-stock{% else %}out-of-stock{% endif %}">
-                        {% if product.in_stock %}В наличии{% else %}Под заказ{% endif %}
-                    </span>
+
+    <section class="product-page">
+        <div class="product-layout">
+            <div class="product-gallery">
+                <div class="product-gallery-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-main-image">
+                    {% else %}
+                        <div class="no-image-large">🪑</div>
+                    {% endif %}
+
+                    {% if product.is_new %}
+                        <span class="product-badge product-badge-detail">Новинка</span>
+                    {% endif %}
                 </div>
             </div>
-            
-            <!-- Категории и стили -->
-            <div class="product-tags">
-                {% for category in product.categories.all %}
-                    <a href="{% url 'catalog:catalog' %}?category={{ category.slug }}" class="tag">
-                        {{ category.icon }} {{ category.name }}
-                    </a>
-                {% endfor %}
-                
-                {% for style in product.styles.all %}
-                    <a href="{% url 'catalog:catalog' %}?style={{ style.slug }}" class="tag tag-style">
-                        {{ style.icon }} {{ style.name }}
-                    </a>
-                {% endfor %}
-                
-                {% for room in product.room_types.all %}
-                    <a href="{% url 'catalog:catalog' %}?room={{ room.slug }}" class="tag tag-room">
-                        {{ room.icon }} {{ room.name }}
-                    </a>
-                {% endfor %}
-            </div>
-            
-            <!-- Описание -->
-            {% if product.description %}
-                <div class="product-description">
-                    <h3>Описание</h3>
-                    <p>{{ product.description }}</p>
-                </div>
-            {% endif %}
-            
-            <!-- Кнопки -->
-            <div class="product-actions">
-                <button class="btn-primary btn-large">🛒 Добавить в корзину</button>
-                <button class="btn-secondary btn-large">❤️ В избранное</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Похожие товары -->
-    {% if similar_products %}
-        <section class="similar-products">
-            <h2>Похожие товары</h2>
-            <div class="products-grid">
-                {% for product in similar_products %}
-                    <div class="product-card">
-                        <a href="{% url 'catalog:product_detail' product.slug %}">
-                            <div class="product-image">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                    <div class="no-image">🪑</div>
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-name">{{ product.name }}</h3>
-                                <p class="product-material">{{ product.material }}</p>
-                                <p class="product-price">{{ product.price|floatformat:0 }} ₽</p>
-                            </div>
-                        </a>
+
+            <div class="product-info">
+                <div class="product-info-card">
+                    <h1 class="product-page-title">{{ product.name }}</h1>
+                    <div class="product-page-price">{{ product.price|floatformat:0 }} ₽</div>
+
+                    <div class="product-meta-list">
+                        <div class="product-meta-row">
+                            <span>Материал</span>
+                            <strong>{{ product.material }}</strong>
+                        </div>
+
+                        {% if product.dimensions %}
+                        <div class="product-meta-row">
+                            <span>Размеры</span>
+                            <strong>{{ product.dimensions }}</strong>
+                        </div>
+                        {% endif %}
+
+                        {% if product.color %}
+                        <div class="product-meta-row">
+                            <span>Цвет</span>
+                            <strong>{{ product.color }}</strong>
+                        </div>
+                        {% endif %}
+
+                        <div class="product-meta-row">
+                            <span>Наличие</span>
+                            <strong class="{% if product.in_stock %}status-in-stock{% else %}status-out-stock{% endif %}">
+                                {% if product.in_stock %}В наличии{% else %}Под заказ{% endif %}
+                            </strong>
+                        </div>
                     </div>
-                {% endfor %}
+
+                    <div class="product-taxonomy">
+                        {% for category in product.categories.all %}
+                            <span class="chip">{{ category.icon }} {{ category.name }}</span>
+                        {% endfor %}
+                        {% for style in product.styles.all %}
+                            <span class="chip">{{ style.icon }} {{ style.name }}</span>
+                        {% endfor %}
+                        {% for room in product.room_types.all %}
+                            <span class="chip">{{ room.icon }} {{ room.name }}</span>
+                        {% endfor %}
+                    </div>
+
+                    {% if product.description %}
+                    <div class="product-description">
+                        <h3>Описание</h3>
+                        <p>{{ product.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="product-actions">
+                        <form method="post" action="{% url 'cart:add' product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-product-main">
+                                🛒 Добавить в корзину
+                            </button>
+                        </form>
+
+                        <button type="button" class="btn btn-secondary btn-product-secondary">
+                            ❤️ В избранное
+                        </button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
+
+    {% if similar_products %}
+    <section class="similar-products">
+        <h2>Похожие товары</h2>
+        <div class="products-grid">
+            {% for product in similar_products %}
+                <div class="product-card product-card-elegant">
+                    <a href="{% url 'catalog:product_detail' product.slug %}" class="product-card-link">
+                        <div class="product-card-image-wrap">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-image">
+                            {% else %}
+                                <div class="no-image">🪑</div>
+                            {% endif %}
+
+                            {% if product.is_new %}
+                                <span class="product-badge">Новинка</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-card-content">
+                            <div class="product-card-top">
+                                <h3 class="product-card-title">{{ product.name }}</h3>
+                                <p class="product-card-material">{{ product.material }}</p>
+                            </div>
+                            <div class="product-card-bottom">
+                                <div class="product-card-price">{{ product.price|floatformat:0 }} ₽</div>
+                                <span class="product-card-action">Подробнее</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
     {% endif %}
 </div>
 {% endblock %}

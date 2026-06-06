@@ -1,7 +1,15 @@
-def cart_context(request):
-    """Контекст корзины для всех шаблонов"""
-    cart_count = 0
+from .models import Cart
+
+
+def cart_data(request):
     if request.user.is_authenticated:
-        # Позже здесь будет реальный подсчёт
-        cart_count = 0
-    return {'cart_count': cart_count}
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_items = cart.items.select_related('product').all()
+        return {
+            'cart': cart,
+            'cart_items': cart_items,
+        }
+    return {
+        'cart': None,
+        'cart_items': [],
+    }

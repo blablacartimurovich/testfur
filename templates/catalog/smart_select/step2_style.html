@@ -6,24 +6,30 @@
 <div class="smart-select">
     <!-- Прогресс-бар -->
     <div class="progress-bar">
-        <div class="progress-steps">
-            <div class="progress-step completed">
+    <div class="progress-steps">
+        <div class="progress-step completed">
                 <span class="step-number">✓</span>
                 <span class="step-name">Комната</span>
             </div>
-            <div class="progress-line completed"></div>
-            <div class="progress-step active">
-                <span class="step-number">2</span>
-                <span class="step-name">Стиль</span>
-            </div>
-            <div class="progress-line"></div>
-            <div class="progress-step">
-                <span class="step-number">3</span>
-                <span class="step-name">Бюджет</span>
-            </div>
+        <div class="progress-line"></div>
+        <div class="progress-step active">
+            <span class="step-number">2</span>
+            <span class="step-name">Стиль</span>
+        </div>
+        <div class="progress-line"></div>
+
+        <div class="progress-step">
+            <span class="step-number">3</span>
+            <span class="step-name">Бюджет</span>
+        </div>
+        <div class="progress-line"></div>
+
+        <div class="progress-step">
+            <span class="step-number">4</span>
+            <span class="step-name">Мебель</span>
         </div>
     </div>
-
+    </div>
     <div class="step-content">
         <div class="selected-info">
             <span class="selected-badge">{{ room.icon }} {{ room.name }}</span>

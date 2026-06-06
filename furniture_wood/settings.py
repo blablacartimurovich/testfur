@@ -19,10 +19,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Наши приложения
-    'core.apps.CoreConfig',
-    'catalog.apps.CatalogConfig',
     'accounts.apps.AccountsConfig',
-    'cart.apps.CartConfig',
+    'cart',
+    'orders',
+    'catalog',
+    'core',
 ]
 
 MIDDLEWARE = [

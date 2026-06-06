@@ -45,14 +45,73 @@
         </div>
         
         <div class="profile-actions">
-            <a href="{% url 'accounts:profile_edit' %}" class="btn-primary">✏️ Редактировать профиль</a>
+            <a href="{% url 'accounts:profile_edit' %}" class="btn btn-primary btn-small">✏️ Редактировать профиль</a>
             
             {% if user.is_admin %}
                 <a href="{% url 'admin:index' %}" class="btn-admin">⚙️ Админ панель</a>
             {% endif %}
             
-            <a href="{% url 'accounts:logout' %}" class="btn-secondary">🚪 Выйти</a>
+            <a href="{% url 'accounts:logout' %}" class="btn-secondary btn-small">🚪 Выйти</a>
         </div>
     </div>
+
+    <!-- ===== КОРЗИНА ===== -->
+        <div class="profile-cart">
+
+            {% if cart_items %}
+                <div class="cart-products">
+                    {% for item in cart_items %}
+                        <div class="cart-product-card">
+                            <div class="cart-product-image">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <div class="no-image">📦</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="cart-product-info">
+                                <h3 class="cart-product-name">{{ item.product.name }}</h3>
+                                <p class="cart-product-price">{{ item.product.price }} ₽ / шт</p>
+
+                                <div class="cart-product-controls">
+                                    <!-- Изменение количества -->
+                                    <form method="post" action="{% url 'cart:update' item.id %}" class="qty-form">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="qty-input">
+                                        <button type="submit" class="btn btn-primary btn-small">Обновить</button>
+                                    </form>
+
+                                    <!-- Удаление -->
+                                    <form method="post" action="{% url 'cart:remove' item.id %}" class="remove-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-remove">🗑️</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="cart-product-subtotal">
+                                {{ item.subtotal }} ₽
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Итого -->
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        Итого: <strong>{{ cart.total_price }} ₽</strong>
+                    </div>
+                    <a href="{% url 'orders:create_order_request' %}" class="btn btn-primary btn-small">Оформить заказ →</a>
+                </div>
+
+            {% else %}
+                <div class="cart-empty">
+                    <p>🛒 Корзина пуста</p>
+                    <a href="{% url 'catalog:catalog' %}" class="btn btn-primary btn-small">Перейти в каталог</a>
+                </div>
+            {% endif %}
+        </div>
+        <!-- ===== /КОРЗИНА ===== -->
 </div>
 {% endblock %}

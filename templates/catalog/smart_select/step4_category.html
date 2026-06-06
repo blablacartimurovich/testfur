@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Умный подбор - Шаг 4{% endblock %}
+
+{% block content %}
+<div class="smart-select">
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+        <div class="progress-steps">
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Комната</span>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Стиль</span>
+            </div>
+            <div class="progress-line active"></div>
+            <div class="progress-step completed">
+                <span class="step-number">✓</span>
+                <span class="step-name">Бюджет</span>
+            </div>
+            <div class="progress-line active"></div>
+
+            <div class="progress-step active">
+                <span class="step-number">4</span>
+                <span class="step-name">Мебель</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-content">
+
+        <div class="selected-info">
+            <span class="selected-badge">{{ room.icon }} {{ room.name }}</span>
+            <span class="selected-badge">🎨 {{ style.name }}</span>
+            <span class="selected-badge">{{ budget_name }}</span>
+        </div>
+
+        <h1>Какую именно мебель вы ищете?</h1>
+
+       <div class="options-grid">
+         {% for category in categories %}
+        <a href="{% url 'catalog:smart_select_results' room.slug style.slug budget category.slug %}" class="option-card budget-card">
+        <div class="option-icon">{{ category.icon }}</div>
+        <div class="option-name">{{ category.name }}</div>
+        </a>
+        {% empty %}
+        <p>Категории не добавлены. Добавьте их в админке.</p>
+        {% endfor %}
+        </div>
+
+        <a href="{% url 'catalog:smart_select_start' %}" class="back-link">← Назад к выбору комнаты</a>
+    </div>
+</div>
+{% endblock %}

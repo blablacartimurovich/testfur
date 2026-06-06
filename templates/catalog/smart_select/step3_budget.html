@@ -21,6 +21,13 @@
                 <span class="step-number">3</span>
                 <span class="step-name">Бюджет</span>
             </div>
+
+            <div class="progress-line active"></div>
+
+            <div class="progress-step">
+                <span class="step-number">4</span>
+                <span class="step-name">Мебель</span>
+            </div>
         </div>
     </div>
 
@@ -35,7 +42,7 @@
 
         <div class="options-grid budget-grid">
             {% for b in budgets %}
-            <a href="{% url 'catalog:smart_select_results' room.slug style.slug b.key %}" class="option-card budget-card">
+            <a href="{% url 'catalog:smart_select_category' room.slug style.slug b.key %}" class="option-card">
                 <div class="option-icon">{{ b.icon }}</div>
                 <div class="option-name">{{ b.name }}</div>
                 <div class="budget-range">{{ b.range }}</div>

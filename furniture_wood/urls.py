@@ -6,9 +6,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls', namespace='core')),           # Главная, О нас, Контакты
-    path('catalog/', include('catalog.urls', namespace='catalog')),  # Каталог
+    path('catalog/', include('catalog.urls', namespace='catalog')),  # Каталог + умный подбор
     path('accounts/', include('accounts.urls', namespace='accounts')), # Авторизация
     path('cart/', include('cart.urls', namespace='cart')),      # Корзина
+    path('orders/', include('orders.urls', namespace='orders')),    #Анкета оформления заказов
 ]
 
 # Для отображения медиа-файлов в режиме разработки

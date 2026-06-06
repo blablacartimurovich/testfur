@@ -1,19 +1,53 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Furniture Wood - Мебель из натурального дерева{% endblock %}
+{% block title %}Furniture Wood{% endblock %}
 
 {% block content %}
-<div class="hero">
-    <h1>🪵 Мебель из натурального дерева</h1>
-    <p>Создаём уют в вашем доме</p>
-    
-    <div class="hero-buttons">
-        <a href="{% url 'catalog:smart_select_start' %}" class="btn-hero primary">
-            🎯 Умный подбор мебели
-        </a>
-        <a href="{% url 'catalog:catalog' %}" class="btn-hero secondary">
-            📦 Весь каталог
-        </a>
+<section class="hero-slider">
+    <div class="slider" id="heroSlider">
+        <div class="slide active" style="background-image: url('{% static "images/slide1.jpg" %}');">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1>Мебель из натурального дерева</h1>
+                <p>Создаём уют, качество и стиль для вашего дома</p>
+                <div class="hero-actions">
+                    <a href="{% url 'catalog:smart_select_start' %}" class="btn btn-primary small">🎯 Умный подбор</a>
+                    <a href="{% url 'catalog:catalog' %}" class="btn btn-secondary small">📦 Перейти в каталог</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: url('{% static "images/slide2.jpg" %}');">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1>Уютная мебель для каждой комнаты</h1>
+                <p>Подберите стиль, бюджет и тип мебели за несколько шагов</p>
+                <div class="hero-actions">
+                    <a href="{% url 'catalog:smart_select_start' %}" class="btn btn-primary small">Подобрать мебель</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: url('{% static "images/slide3.jpg" %}');">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1>Надёжность и тепло дерева</h1>
+                <p>Практичная мебель, которая служит долго</p>
+                <div class="hero-actions">
+                    <a href="{% url 'catalog:catalog' %}" class="btn btn-secondary small">Смотреть каталог</a>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-btn prev" id="prevSlide">❮</button>
+        <button class="slider-btn next" id="nextSlide">❯</button>
+
+        <div class="slider-dots" id="sliderDots"></div>
     </div>
-</div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/slider.js' %}"></script>
 {% endblock %}

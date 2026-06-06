@@ -6,22 +6,30 @@
 <div class="smart-select">
     <!-- Прогресс-бар -->
     <div class="progress-bar">
-        <div class="progress-steps">
-            <div class="progress-step active">
-                <span class="step-number">1</span>
-                <span class="step-name">Комната</span>
-            </div>
-            <div class="progress-line"></div>
-            <div class="progress-step">
-                <span class="step-number">2</span>
-                <span class="step-name">Стиль</span>
-            </div>
-            <div class="progress-line"></div>
-            <div class="progress-step">
-                <span class="step-number">3</span>
-                <span class="step-name">Бюджет</span>
-            </div>
+    <div class="progress-steps">
+        <div class="progress-step active">
+            <span class="step-number">1</span>
+            <span class="step-name">Комната</span>
         </div>
+        <div class="progress-line"></div>
+
+        <div class="progress-step">
+            <span class="step-number">2</span>
+            <span class="step-name">Стиль</span>
+        </div>
+        <div class="progress-line"></div>
+
+        <div class="progress-step">
+            <span class="step-number">3</span>
+            <span class="step-name">Бюджет</span>
+        </div>
+        <div class="progress-line"></div>
+
+        <div class="progress-step">
+            <span class="step-number">4</span>
+            <span class="step-name">Мебель</span>
+        </div>
+    </div>
     </div>
 
     <div class="step-content">
@@ -31,7 +39,9 @@
         <div class="options-grid">
             {% for room in rooms %}
             <a href="{% url 'catalog:smart_select_style' room.slug %}" class="option-card">
-                <div class="option-icon">{{ room.icon }}</div>
+                {% if room.image %}
+                <img src="{{ room.image.url }}" alt="{{ room.name }}" class="option-image">
+                {% endif %}
                 <div class="option-name">{{ room.name }}</div>
             </a>
             {% empty %}
